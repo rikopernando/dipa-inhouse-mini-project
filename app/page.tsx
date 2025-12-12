@@ -1,6 +1,7 @@
 import { Film } from 'lucide-react';
 
 import { MovieList } from '@/components/organisms/movie-list';
+import { Typography } from '@/components/atoms/typography';
 
 export default function Home() {
   return (
@@ -10,16 +11,18 @@ export default function Home() {
         <div className="mb-8 md:mb-12">
           <div className="mb-4 flex items-center gap-3">
             <Film className="h-8 w-8 md:h-10 md:w-10" />
-            <h1 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">CineTrack</h1>
+            <Typography variant="h1">CineTrack</Typography>
           </div>
-          <p className="text-muted-foreground max-w-2xl text-lg">
+          <Typography variant="lead" className="max-w-2xl">
             Discover popular movies and series with detailed information and ratings
-          </p>
+          </Typography>
         </div>
 
         {/* Popular Movies Section */}
         <section>
-          <h2 className="mb-6 text-2xl font-semibold md:text-3xl">Popular Movies</h2>
+          <Typography variant="h2" className="mb-6">
+            Popular Movies
+          </Typography>
           <MovieList />
         </section>
       </main>

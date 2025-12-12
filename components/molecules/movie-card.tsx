@@ -5,6 +5,7 @@ import { Star } from 'lucide-react';
 
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Typography } from '@/components/atoms/typography';
 import { getImageUrl } from '@/api/config';
 import type { Movie } from '@/types/movie';
 
@@ -37,10 +38,10 @@ function MovieCardComponent({ movie }: MovieCardProps) {
           </div>
         </CardHeader>
         <CardContent className="p-4">
-          <h3 className="mb-2 line-clamp-2 text-lg leading-tight font-semibold">{movie.title}</h3>
-          <div className="text-muted-foreground flex items-center gap-2 text-sm">
-            <span>{releaseYear}</span>
-          </div>
+          <Typography variant="h5" as="h3" className="mb-2 line-clamp-2">
+            {movie.title}
+          </Typography>
+          <Typography variant="muted">{releaseYear}</Typography>
         </CardContent>
         <CardFooter className="px-4 pt-0 pb-4">
           <Badge variant="secondary" className="flex items-center gap-1">
