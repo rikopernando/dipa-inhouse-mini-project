@@ -1,11 +1,25 @@
 # Git Hooks
 
-This directory contains Git hooks managed by Husky.
+This directory contains Git hooks managed by Husky v9+.
 
 ## Hooks
 
 - **pre-commit**: Runs `lint-staged` to lint and format staged files
 - **commit-msg**: Runs `commitlint` to validate commit messages
+
+## Hook Format (Husky v9+)
+
+Husky v9+ uses a simplified hook format without the shebang and sourcing script:
+
+```bash
+# ✅ Correct format (v9+)
+npx lint-staged
+
+# ❌ Deprecated format (will fail in v10)
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+npx lint-staged
+```
 
 ## Commit Message Format
 
