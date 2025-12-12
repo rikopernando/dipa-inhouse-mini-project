@@ -1,8 +1,10 @@
+import { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Star } from 'lucide-react';
+
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star } from 'lucide-react';
 import { getImageUrl } from '@/api/config';
 import type { Movie } from '@/types/movie';
 
@@ -13,8 +15,9 @@ interface MovieCardProps {
 /**
  * MovieCard displays a single movie's information in a card format
  * Includes poster image, title, rating, and release date
+ * Memoized to prevent unnecessary re-renders
  */
-export function MovieCard({ movie }: MovieCardProps) {
+function MovieCardComponent({ movie }: MovieCardProps) {
   const posterUrl = getImageUrl(movie.poster_path, 'w500');
   const rating = movie.vote_average.toFixed(1);
   const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
@@ -49,3 +52,11 @@ export function MovieCard({ movie }: MovieCardProps) {
     </Link>
   );
 }
+
+/**
+ * Memoized MovieCard - only re-renders when movie.id changes
+ * Improves performance in large lists
+ */
+export const MovieCard = memo(MovieCardComponent, (prevProps, nextProps) => {
+  return prevProps.movie.id === nextProps.movie.id;
+});

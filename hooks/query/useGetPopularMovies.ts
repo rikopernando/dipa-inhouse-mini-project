@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchPopularMovies } from '@/api/movies';
+import { API_CONFIG } from '@/lib/constants';
 import type { MovieResponse } from '@/types/movie';
 
 /**
@@ -11,6 +12,6 @@ export const useGetPopularMovies = (page: number = 1) => {
   return useQuery<MovieResponse, Error>({
     queryKey: ['popularMovies', page],
     queryFn: () => fetchPopularMovies(page),
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    staleTime: API_CONFIG.STALE_TIME,
   });
 };
