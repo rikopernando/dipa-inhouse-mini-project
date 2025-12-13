@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useCallback, useMemo, useRef } from 'react';
 import { SearchInput } from '@/components/molecules/search-input';
 import { Pagination } from '@/components/molecules/pagination';
 import { PaginationInfo } from '@/components/atoms/pagination-info';
@@ -11,8 +11,9 @@ import { EmptyState } from '@/components/atoms/empty-state';
 import { GridLayout } from '@/components/atoms/grid-layout';
 import { PageSection } from '@/components/molecules/page-section';
 import { useDebounce } from '@/hooks/useDebounce';
-import { useSearchMovies } from '@/hooks/query/useSearchMovies';
-import { useGetPopularMovies } from '@/hooks/query/useGetPopularMovies';
+import { useMovieData } from '@/hooks/useMovieData';
+import { usePageReset } from '@/hooks/usePageReset';
+import { useScrollToSection } from '@/hooks/useScrollToSection';
 import {
   GRID_CONFIG,
   LOADING_CONFIG,
@@ -41,6 +42,12 @@ export interface SearchableMovieSectionProps {
  * Searchable Movie Section Component (Client Component)
  * Displays popular movies by default, with search functionality and pagination
  * Uses debouncing to reduce API calls during search
+ *
+ * Optimized with:
+ * - Custom hooks for separation of concerns
+ * - useCallback for stable function references
+ * - useMemo for computed values
+ * - Minimal re-renders
  */
 export function SearchableMovieSection({
   initialMovies,
@@ -49,101 +56,71 @@ export function SearchableMovieSection({
 }: SearchableMovieSectionProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const prevSearchTermRef = useRef<string | undefined>(undefined);
 
-  // Determine if we're searching
-  const isSearchActive = debouncedSearchTerm.trim().length > 0;
+  // Debounce search term to reduce API calls
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  // Fetch search results if searching
-  const {
-    data: searchData,
-    isLoading: isSearchLoading,
-    isError: isSearchError,
-    error: searchError,
-  } = useSearchMovies(debouncedSearchTerm, currentPage);
+  // Memoize computed values
+  const isSearchActive = useMemo(
+    () => debouncedSearchTerm.trim().length > 0,
+    [debouncedSearchTerm],
+  );
 
-  // Fetch popular movies for pagination
-  // Only fetch if NOT searching AND NOT on page 1 (page 1 uses ISR initialMovies)
-  const {
-    data: popularData,
-    isLoading: isPopularLoading,
-    isError: isPopularError,
-    error: popularError,
-  } = useGetPopularMovies(currentPage, !isSearchActive && currentPage > 1);
+  const sectionTitle = useMemo(
+    () =>
+      isSearchActive
+        ? PAGE_CONTENT.HOME.SECTIONS.SEARCH_RESULTS.TITLE
+        : PAGE_CONTENT.HOME.SECTIONS.TRENDING.TITLE,
+    [isSearchActive],
+  );
 
-  // Reset to page 1 when search term changes (avoid cascading renders)
-  useEffect(() => {
-    // Only reset page if search term actually changed (not on initial mount)
-    function resetPage() {
-      setCurrentPage(1);
-    }
+  // Fetch and determine movie data (search or popular)
+  const { movies, totalPages, totalResults, isLoading, isError, error } = useMovieData({
+    isSearchActive,
+    debouncedSearchTerm,
+    currentPage,
+    initialMovies,
+    initialTotalPages,
+    initialTotalResults,
+  });
 
-    if (
-      prevSearchTermRef.current !== undefined &&
-      prevSearchTermRef.current !== debouncedSearchTerm
-    ) {
-      resetPage();
-    }
-    prevSearchTermRef.current = debouncedSearchTerm;
-  }, [debouncedSearchTerm]);
+  // Reset page to 1 when search term changes
+  const handleResetPage = useCallback(() => setCurrentPage(1), []);
+  usePageReset(debouncedSearchTerm, handleResetPage);
 
   // Scroll to top when page changes
-  useEffect(() => {
-    if (PAGINATION_CONFIG.SCROLL_TO_TOP_ON_PAGE_CHANGE && sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [currentPage]);
+  useScrollToSection(sectionRef, [currentPage], {
+    enabled: PAGINATION_CONFIG.SCROLL_TO_TOP_ON_PAGE_CHANGE,
+    behavior: 'smooth',
+    block: 'start',
+  });
 
-  // Determine which data to use
-  let movies: Movie[] = [];
-  let totalPages = 1;
-  let totalResults = 0;
-  let isLoading = false;
-  let isError = false;
-  let error: Error | null = null;
-
-  if (isSearchActive) {
-    // Use search data
-    movies = searchData?.results || [];
-    totalPages = searchData?.total_pages || 1;
-    totalResults = searchData?.total_results || 0;
-    isLoading = isSearchLoading;
-    isError = isSearchError;
-    error = searchError;
-  } else {
-    // Use popular movies (from server for page 1, from query for other pages)
-    if (currentPage === 1) {
-      // Use ISR data from server (no fetch needed!)
-      movies = initialMovies;
-      totalPages = initialTotalPages;
-      totalResults = initialTotalResults;
-    } else {
-      // Fetch from React Query for pages 2+
-      movies = popularData?.results || [];
-      totalPages = popularData?.total_pages || 1;
-      totalResults = popularData?.total_results || 0;
-      isLoading = isPopularLoading;
-      isError = isPopularError;
-      error = popularError;
-    }
-  }
-
-  const sectionTitle = isSearchActive
-    ? PAGE_CONTENT.HOME.SECTIONS.SEARCH_RESULTS.TITLE
-    : PAGE_CONTENT.HOME.SECTIONS.TRENDING.TITLE;
-
-  // Handle clear search
-  const handleClearSearch = () => {
+  // Memoize event handlers to prevent re-renders
+  const handleClearSearch = useCallback(() => {
     setSearchTerm('');
     setCurrentPage(1);
-  };
+  }, []);
 
-  // Handle page change
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
-  };
+  }, []);
+
+  // Memoize error title and message
+  const errorTitle = useMemo(
+    () => (isSearchActive ? 'Error Searching Movies' : 'Error Loading Movies'),
+    [isSearchActive],
+  );
+
+  const errorMessage = useMemo(
+    () => (isSearchActive ? ERROR_MESSAGES.SEARCH.SEARCH_ERROR : ERROR_MESSAGES.MOVIES.LOAD_ERROR),
+    [isSearchActive],
+  );
+
+  const emptyMessage = useMemo(
+    () => (isSearchActive ? ERROR_MESSAGES.SEARCH.NO_RESULTS : ERROR_MESSAGES.MOVIES.EMPTY_STATE),
+    [isSearchActive],
+  );
 
   return (
     <div ref={sectionRef}>
@@ -167,24 +144,11 @@ export function SearchableMovieSection({
         )}
 
         {/* Error State */}
-        {isError && (
-          <ErrorState
-            title={isSearchActive ? 'Error Searching Movies' : 'Error Loading Movies'}
-            message={
-              isSearchActive ? ERROR_MESSAGES.SEARCH.SEARCH_ERROR : ERROR_MESSAGES.MOVIES.LOAD_ERROR
-            }
-            error={error}
-          />
-        )}
+        {isError && <ErrorState title={errorTitle} message={errorMessage} error={error} />}
 
         {/* Empty Results */}
         {!isLoading && !isError && movies.length === 0 && (
-          <EmptyState
-            title="No Results"
-            message={
-              isSearchActive ? ERROR_MESSAGES.SEARCH.NO_RESULTS : ERROR_MESSAGES.MOVIES.EMPTY_STATE
-            }
-          />
+          <EmptyState title="No Results" message={emptyMessage} />
         )}
 
         {/* Movie Grid */}
