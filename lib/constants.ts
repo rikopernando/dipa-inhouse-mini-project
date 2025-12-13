@@ -40,6 +40,45 @@ export const API_CONFIG = {
 } as const;
 
 /**
+ * Page content
+ */
+export const PAGE_CONTENT = {
+  HOME: {
+    HERO: {
+      TITLE: 'Discover Popular Movies',
+      DESCRIPTION: 'Explore the most popular movies with detailed information, ratings, and more',
+    },
+    SECTIONS: {
+      TRENDING: {
+        TITLE: 'Trending Now',
+      },
+    },
+  },
+  MOVIE_DETAIL: {
+    BACK_LINK: 'Back to Home',
+    SECTIONS: {
+      OVERVIEW: 'Overview',
+      GENRES: 'Genres',
+    },
+    LABELS: {
+      STATUS: 'Status',
+      LANGUAGE: 'Original Language',
+      BUDGET: 'Budget',
+      REVENUE: 'Revenue',
+      VOTES: 'votes',
+      POPULARITY: 'Popularity',
+    },
+    PLACEHOLDERS: {
+      NO_OVERVIEW: 'No overview available.',
+    },
+    ERROR: {
+      TITLE: 'Error Loading Movie',
+      MESSAGE: 'Failed to load movie details. The movie might not exist.',
+    },
+  },
+} as const;
+
+/**
  * HTTP STATUS CODE
  */
 export const HTTP_STATUS_CODES = {
