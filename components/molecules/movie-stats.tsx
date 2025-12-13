@@ -27,7 +27,7 @@ export interface MovieStatsProps {
  */
 export function MovieStats({ status, language, budget, revenue }: MovieStatsProps) {
   return (
-    <Card>
+    <Card className="py-0 shadow-none">
       <CardContent className="grid gap-4 p-6 md:grid-cols-2">
         {/* Status */}
         <div>

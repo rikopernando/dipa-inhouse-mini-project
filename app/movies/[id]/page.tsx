@@ -1,7 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
 
 import { fetchMovieDetail, fetchPopularMovies } from '@/api/movies';
 import { Typography } from '@/components/atoms/typography';
@@ -110,7 +108,6 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
           />
           {/* Gradient Overlays */}
           <div className="from-background via-background/60 absolute inset-0 bg-gradient-to-t to-transparent" />
-          <div className="from-background/80 to-background/80 absolute inset-0 bg-gradient-to-r via-transparent" />
         </div>
       )}
 
@@ -118,20 +115,11 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
       <div className="container mx-auto px-4">
         {/* Hero Content (overlaps backdrop with negative margin) */}
         <div className={movie.backdrop_path ? 'relative z-10 -mt-32 md:-mt-40' : 'pt-8'}>
-          {/* Back Button */}
-          <Link
-            href="/"
-            className="text-muted-foreground hover:text-primary mb-6 inline-flex items-center gap-2 text-sm transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            {PAGE_CONTENT.MOVIE_DETAIL.BACK_LINK}
-          </Link>
-
           {/* Poster + Details Grid */}
           <div className="grid gap-8 md:grid-cols-[300px_1fr]">
             {/* Poster */}
             <div>
-              <Card className="overflow-hidden shadow-2xl">
+              <Card className="overflow-hidden py-0 shadow-2xl">
                 <div className="relative aspect-[2/3] w-full">
                   <Image
                     src={posterUrl}
@@ -146,7 +134,7 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
             </div>
 
             {/* Movie Details */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               {/* Title and Tagline */}
               <div>
                 <Typography variant="h1" className="mb-2">
