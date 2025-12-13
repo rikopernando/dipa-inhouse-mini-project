@@ -16,7 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'CineTrack: Movie & Series Explorer',
+  title: {
+    template: '%s | CineTrack',
+    default: 'CineTrack: Movie & Series Explorer',
+  },
   description: 'Discover popular movies and series with detailed information and ratings',
 };
 

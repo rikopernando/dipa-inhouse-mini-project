@@ -55,12 +55,12 @@ export async function generateMetadata({ params }: MovieDetailPageProps) {
   try {
     const movie = await fetchMovieDetail(movieId);
     return {
-      title: `${movie.title} - CineTrack`,
+      title: movie.title,
       description: movie.overview || `Watch ${movie.title} and explore detailed information`,
     };
   } catch {
     return {
-      title: 'Movie Not Found - CineTrack',
+      title: 'Movie Not Found',
       description: 'The requested movie could not be found',
     };
   }

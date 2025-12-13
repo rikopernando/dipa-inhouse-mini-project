@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Typography } from '@/components/atoms/typography';
 import { ErrorState } from '@/components/atoms/error-state';
 import { ArrowLeft } from 'lucide-react';
 import { PAGE_CONTENT } from '@/lib/constants';
