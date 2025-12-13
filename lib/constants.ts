@@ -22,6 +22,15 @@ export const LOADING_CONFIG = {
 } as const;
 
 /**
+ * Pagination configuration
+ */
+export const PAGINATION_CONFIG = {
+  ITEMS_PER_PAGE: 20, // TMDB returns 20 results per page
+  MAX_VISIBLE_PAGES: 5, // Show max 5 page numbers at once
+  SCROLL_TO_TOP_ON_PAGE_CHANGE: true,
+} as const;
+
+/**
  * Error messages
  */
 export const ERROR_MESSAGES = {
@@ -63,6 +72,15 @@ export const PAGE_CONTENT = {
     SEARCH: {
       PLACEHOLDER: 'Search for movies...',
       CLEAR: 'Clear search',
+    },
+    PAGINATION: {
+      PREVIOUS: 'Previous',
+      NEXT: 'Next',
+      PAGE: 'Page',
+      OF: 'of',
+      SHOWING: 'Showing',
+      TO: 'to',
+      RESULTS: 'results',
     },
   },
   MOVIE_DETAIL: {

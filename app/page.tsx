@@ -18,10 +18,14 @@ export const revalidate = 1800;
 export default async function Home() {
   // Fetch popular movies on server with ISR
   let moviesList: Movie[] = [];
+  let initialTotalPages = 1;
+  let initialTotalResults = 0;
 
   try {
     const data = await fetchPopularMovies(1);
     moviesList = data.results;
+    initialTotalPages = data.total_pages;
+    initialTotalResults = data.total_results;
   } catch (error) {
     console.error('Error fetching popular movies:', error);
   }
@@ -33,7 +37,11 @@ export default async function Home() {
         description={PAGE_CONTENT.HOME.HERO.DESCRIPTION}
       />
 
-      <SearchableMovieSection initialMovies={moviesList} />
+      <SearchableMovieSection
+        initialMovies={moviesList}
+        initialTotalPages={initialTotalPages}
+        initialTotalResults={initialTotalResults}
+      />
     </div>
   );
 }
