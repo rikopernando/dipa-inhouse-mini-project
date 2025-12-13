@@ -96,7 +96,7 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
     <div>
       {/* Backdrop Hero Section (Netflix-style) */}
       {movie.backdrop_path && (
-        <div className="relative h-[400px] w-full md:h-[500px]">
+        <div className="relative h-[222px] w-full bg-white sm:h-[400px] lg:h-[500px]">
           {/* Backdrop Image */}
           <Image
             src={backdropUrl}
@@ -107,18 +107,18 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
             quality={90}
           />
           {/* Gradient Overlays */}
-          <div className="from-background via-background/60 absolute inset-0 bg-gradient-to-t to-transparent" />
+          <div className="from-background via-background/60 absolute inset-0 hidden bg-gradient-to-t to-transparent sm:block" />
         </div>
       )}
 
       {/* Main Content */}
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 pt-4 sm:pt-0 lg:px-6">
         {/* Hero Content (overlaps backdrop with negative margin) */}
-        <div className={movie.backdrop_path ? 'relative z-10 -mt-32 md:-mt-40' : 'pt-8'}>
+        <div className={movie.backdrop_path ? 'relative z-10 mt-0 sm:-mt-32' : 'pt-8'}>
           {/* Poster + Details Grid */}
-          <div className="grid gap-8 md:grid-cols-[300px_1fr]">
+          <div className="grid gap-4 sm:gap-4 md:grid-cols-[300px_1fr] lg:gap-8">
             {/* Poster */}
-            <div>
+            <div className="hidden sm:block">
               <Card className="overflow-hidden py-0 shadow-2xl">
                 <div className="relative aspect-[2/3] w-full">
                   <Image

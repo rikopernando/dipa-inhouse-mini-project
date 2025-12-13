@@ -46,7 +46,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="container mx-auto px-6 py-8 md:py-12">
+    <div className="container mx-auto px-4 py-4 lg:px-6 lg:py-8">
       <HeroSection
         title={PAGE_CONTENT.HOME.HERO.TITLE}
         description={PAGE_CONTENT.HOME.HERO.DESCRIPTION}

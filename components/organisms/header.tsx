@@ -9,7 +9,7 @@ import { Typography } from '@/components/atoms/typography';
 export function Header() {
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 border-b backdrop-blur">
-      <div className="container mx-auto flex h-16 items-center px-6">
+      <div className="container mx-auto flex h-16 items-center px-4 lg:px-6">
         {/* Logo and Brand */}
         <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
           <Film className="h-6 w-6" />

@@ -124,7 +124,6 @@ export function Pagination({ currentPage, totalPages, onPageChange, className }:
           return (
             <PaginationItem key={pageNumber}>
               <PaginationLink
-                size="lg"
                 onClick={() => !isActive && onPageChange(pageNumber)}
                 isActive={isActive}
                 aria-label={`${PAGE_CONTENT.HOME.PAGINATION.PAGE} ${pageNumber}`}

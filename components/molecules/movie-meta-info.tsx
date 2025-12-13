@@ -38,12 +38,12 @@ export function MovieMetaInfo({
   popularity,
 }: MovieMetaInfoProps) {
   return (
-    <div className="flex flex-wrap items-center gap-4">
+    <div className="mt-0 flex flex-wrap items-center gap-2 lg:-mt-2 lg:gap-4">
       {/* Rating */}
       <div className="flex items-center gap-2">
         <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
         <Typography variant="large">{rating}</Typography>
-        <Typography variant="muted">
+        <Typography variant="muted" className="hidden lg:block">
           ({voteCount} {PAGE_CONTENT.MOVIE_DETAIL.LABELS.VOTES})
         </Typography>
       </div>
