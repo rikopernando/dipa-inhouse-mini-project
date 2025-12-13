@@ -30,6 +30,10 @@ export const ERROR_MESSAGES = {
     NOT_FOUND: 'No movies found.',
     EMPTY_STATE: 'There are no popular movies available at the moment.',
   },
+  SEARCH: {
+    NO_RESULTS: 'No movies found matching your search.',
+    SEARCH_ERROR: 'Failed to search for movies. Please try again.',
+  },
 } as const;
 
 /**
@@ -52,6 +56,13 @@ export const PAGE_CONTENT = {
       TRENDING: {
         TITLE: 'Trending Now',
       },
+      SEARCH_RESULTS: {
+        TITLE: 'Search Results',
+      },
+    },
+    SEARCH: {
+      PLACEHOLDER: 'Search for movies...',
+      CLEAR: 'Clear search',
     },
   },
   MOVIE_DETAIL: {

@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { Typography } from '@/components/atoms/typography';
 import { Github, Heart } from 'lucide-react';
+
+import { Typography } from '@/components/atoms/typography';
 
 /**
  * Footer component with app information

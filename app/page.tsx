@@ -1,9 +1,7 @@
 import { fetchPopularMovies } from '@/api/movies';
-import { MovieGrid } from '@/components/organisms/movie-grid';
 import { HeroSection } from '@/components/molecules/hero-section';
-import { PageSection } from '@/components/molecules/page-section';
-import { EmptyState } from '@/components/atoms/empty-state';
-import { PAGE_CONTENT, ERROR_MESSAGES } from '@/lib/constants';
+import { SearchableMovieSection } from '@/components/organisms/searchable-movie-section';
+import { PAGE_CONTENT } from '@/lib/constants';
 import type { Movie } from '@/types/movie';
 
 /**
@@ -15,6 +13,7 @@ export const revalidate = 1800;
 /**
  * Home Page (Server Component with ISR)
  * Pre-rendered at build time and revalidated every 30 minutes
+ * Includes client-side search functionality
  */
 export default async function Home() {
   // Fetch popular movies on server with ISR
@@ -34,13 +33,7 @@ export default async function Home() {
         description={PAGE_CONTENT.HOME.HERO.DESCRIPTION}
       />
 
-      <PageSection title={PAGE_CONTENT.HOME.SECTIONS.TRENDING.TITLE}>
-        {moviesList.length > 0 ? (
-          <MovieGrid movies={moviesList} />
-        ) : (
-          <EmptyState title="No Movies Found" message={ERROR_MESSAGES.MOVIES.EMPTY_STATE} />
-        )}
-      </PageSection>
+      <SearchableMovieSection initialMovies={moviesList} />
     </div>
   );
 }

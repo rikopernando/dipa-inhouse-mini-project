@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { ErrorState } from '@/components/atoms/error-state';
 import { ArrowLeft } from 'lucide-react';
+
+import { ErrorState } from '@/components/atoms/error-state';
 import { PAGE_CONTENT } from '@/lib/constants';
 
 /**

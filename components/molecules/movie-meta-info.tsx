@@ -1,5 +1,6 @@
-import { Typography } from '@/components/atoms/typography';
 import { Star, Calendar, Clock, TrendingUp } from 'lucide-react';
+
+import { Typography } from '@/components/atoms/typography';
 import { PAGE_CONTENT } from '@/lib/constants';
 
 export interface MovieMetaInfoProps {

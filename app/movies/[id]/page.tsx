@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
+
 import { fetchMovieDetail, fetchPopularMovies } from '@/api/movies';
 import { Typography } from '@/components/atoms/typography';
 import { Card } from '@/components/ui/card';
 import { getImageUrl } from '@/api/config';
-import { ArrowLeft } from 'lucide-react';
 import { MovieMetaInfo } from '@/components/molecules/movie-meta-info';
 import { MovieStats } from '@/components/molecules/movie-stats';
 import { GenreList } from '@/components/molecules/genre-list';
