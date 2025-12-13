@@ -29,9 +29,9 @@ export function GridLayout({
   gap = 'md',
 }: GridLayoutProps) {
   const gapClasses = {
-    sm: 'gap-2 md:gap-4',
-    md: 'gap-4 md:gap-6',
-    lg: 'gap-6 md:gap-8',
+    sm: 'gap-x-2 gap-y-4',
+    md: 'gap-x-2 gap-y-4',
+    lg: 'gap-x-2 gap-y-4',
   };
 
   // Using safelist-compatible classes for Tailwind JIT

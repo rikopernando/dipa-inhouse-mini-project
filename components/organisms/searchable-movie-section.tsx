@@ -129,7 +129,7 @@ export function SearchableMovieSection({
         value={searchTerm}
         onChange={setSearchTerm}
         onClear={handleClearSearch}
-        className="mb-8"
+        className="mb-6 max-w-sm"
       />
 
       {/* Movie Section */}

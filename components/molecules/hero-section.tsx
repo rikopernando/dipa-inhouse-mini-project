@@ -22,7 +22,7 @@ export interface HeroSectionProps {
  */
 export function HeroSection({ title, description, className }: HeroSectionProps) {
   return (
-    <div className={cn('mb-8 md:mb-12', className)}>
+    <div className={cn('mb-6', className)}>
       <Typography variant="h1" className="mb-4">
         {title}
       </Typography>

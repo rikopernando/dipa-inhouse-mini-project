@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { fetchPopularMovies } from '@/api/movies';
 import { HeroSection } from '@/components/molecules/hero-section';
 import { SearchableMovieSection } from '@/components/organisms/searchable-movie-section';
@@ -9,6 +10,20 @@ import type { Movie } from '@/types/movie';
  * Revalidate every 30 minutes (1800 seconds)
  */
 export const revalidate = 1800;
+
+/**
+ * Page-specific metadata
+ */
+export const metadata: Metadata = {
+  title: 'Popular Movies & Series',
+  description:
+    'Browse the most popular movies and TV series. Discover trending content, search through thousands of titles, and find your next favorite movie or show.',
+  openGraph: {
+    title: 'Popular Movies & Series | CineTrack',
+    description:
+      'Browse the most popular movies and TV series. Discover trending content and find your next favorite movie or show.',
+  },
+};
 
 /**
  * Home Page (Server Component with ISR)
@@ -31,7 +46,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12">
+    <div className="container mx-auto px-6 py-8 md:py-12">
       <HeroSection
         title={PAGE_CONTENT.HOME.HERO.TITLE}
         description={PAGE_CONTENT.HOME.HERO.DESCRIPTION}

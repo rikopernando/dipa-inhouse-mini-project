@@ -9,7 +9,7 @@ import { GRID_CONFIG, LOADING_CONFIG } from '@/lib/constants';
  */
 export default function HomeLoading() {
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12">
+    <div className="container mx-auto px-6 py-8 md:py-12">
       {/* Hero Skeleton */}
       <div className="mb-8 md:mb-12">
         <Skeleton className="mb-4 h-12 w-3/4" />

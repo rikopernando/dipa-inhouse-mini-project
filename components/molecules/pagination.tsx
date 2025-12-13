@@ -10,6 +10,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { PAGE_CONTENT, PAGINATION_CONFIG } from '@/lib/constants';
+import { formatNumber } from '@/lib/utils';
 
 export interface PaginationProps {
   /**
@@ -123,12 +124,13 @@ export function Pagination({ currentPage, totalPages, onPageChange, className }:
           return (
             <PaginationItem key={pageNumber}>
               <PaginationLink
+                size="lg"
                 onClick={() => !isActive && onPageChange(pageNumber)}
                 isActive={isActive}
                 aria-label={`${PAGE_CONTENT.HOME.PAGINATION.PAGE} ${pageNumber}`}
                 className={isActive ? 'pointer-events-none' : 'cursor-pointer'}
               >
-                {pageNumber}
+                {formatNumber(pageNumber)}
               </PaginationLink>
             </PaginationItem>
           );
