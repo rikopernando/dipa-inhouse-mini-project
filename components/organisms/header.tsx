@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { Film } from 'lucide-react';
 import { Typography } from '@/components/atoms/typography';
+import { ThemeToggle } from '@/components/molecules/theme-toggle';
 
 /**
  * Header component with consistent navigation
- * Displays app branding and navigation links
+ * Displays app branding, navigation links, and theme toggle
  */
 export function Header() {
   return (
@@ -19,7 +20,7 @@ export function Header() {
         </Link>
 
         {/* Navigation */}
-        <nav className="ml-auto flex items-center gap-6">
+        <nav className="ml-auto flex items-center gap-4">
           <Link href="/" className="hover:text-primary text-sm font-medium transition-colors">
             Home
           </Link>
@@ -29,6 +30,9 @@ export function Header() {
           >
             Popular
           </Link>
+
+          {/* Theme Toggle */}
+          <ThemeToggle />
         </nav>
       </div>
     </header>

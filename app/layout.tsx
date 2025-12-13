@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ReactQueryProvider } from '@/components/providers/react-query-provider';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Header } from '@/components/organisms/header';
 import { Footer } from '@/components/organisms/footer';
 import './globals.css';
@@ -88,7 +89,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <a
           href="#main-content"
@@ -96,15 +97,17 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ReactQueryProvider>
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main id="main-content" className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </ReactQueryProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <ReactQueryProvider>
+            <div className="flex min-h-screen flex-col">
+              <Header />
+              <main id="main-content" className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </ReactQueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
